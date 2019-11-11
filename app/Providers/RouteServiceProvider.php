@@ -24,7 +24,6 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-
         parent::boot();
     }
 
@@ -51,9 +50,16 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+        if (app()->scope == 'front') {
+            Route::middleware('web')
+                 ->namespace($this->namespace)
+                 ->group(base_path('routes/web.php'));
+        } else {
+            Route::middleware('web')
+                ->prefix(config('app.admin_route'))
+                ->namespace($this->namespace)
+                ->group(base_path('routes/admin.php'));
+        }
     }
 
     /**
