@@ -125,6 +125,29 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Admin Route
+    |--------------------------------------------------------------------------
+    |
+    | This value refers to your admin route which will serve requests for your
+    | admin side of the website.
+    |
+    */
+    'admin_route' => 'storeadmin',
+
+    /*
+    |--------------------------------------------------------------------------
+    | App Scope
+    |--------------------------------------------------------------------------
+    |
+    | This value should not be changed here as this value will change dynamically with
+    | every request it serves. Application first try to search admin_route defined in URL, if so, then it will be
+    | changing this scope to front
+    |
+    */
+    'app_scope' => 'front',
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

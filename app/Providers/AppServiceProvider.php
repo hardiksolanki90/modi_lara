@@ -13,7 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Create a Service Container
+        $this->app->singleton('context', function ($app) {
+            return new \App\Classes\Context;
+        });
+        $urlSegements = request()->segments();
     }
 
     /**
@@ -23,6 +27,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        app()->scope = 'front';
+        $urlSegements = request()->segments();
+        $adminRoute = $urlSegements;
+        if (in_array('storeadmin', $adminRoute)) {
+            app()->scope = 'admin';
+            config(['app.scope' => 'admin']);
+        }
     }
 }
