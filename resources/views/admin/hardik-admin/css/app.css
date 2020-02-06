@@ -10679,3 +10679,70 @@ body .note-editor.note-frame {
 .switch--horizontal input ~ input:checked ~ .toggle-outside {
   background: #f44336;
 }
+
+._mc_wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 15px;
+    background: #fcfcfc;
+    border: 1px solid #ccc;
+}
+
+._mc {
+    width: calc(100%);
+    padding: 7.5px;
+    border: 1px solid #ddd;
+    margin: 5px;
+    height: auto;
+    overflow: auto;
+    position: relative;
+    display: flex;
+    padding-top: 25px;
+    background: #fff;
+}
+
+._ref {
+    background: orange;
+    color: #fff;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    text-align: center;
+    padding: 3px 10px;
+    font-size: 11px;
+    position: absolute;
+    top: 0px;
+}
+
+._cfb {
+    position: absolute;
+    right: 9px;
+    top: 0;
+    border: 1px solid red;
+    background: red;
+}
+
+._cfb a {
+    color: #fff;
+    padding: 5px;
+    font-size: 11px;
+    line-height: 14px;
+}
+
+.flex.space-between {
+    justify-content: space-between;
+}
+
+._main {
+    flex: 1;
+}
+
+._flex_column._center {
+    margin: 0 7.5px;
+}
+
+._flex_column {
+    display: flex;
+    flex-flow: column;
+    flex: 1;
+}

@@ -9,7 +9,7 @@ class AdminMenuController extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->component = $this->context->component
+        $this->component = app()->context->component
         ->where(['variable' => 'admin_menu'])
         ->first();
     }
@@ -28,13 +28,13 @@ class AdminMenuController extends AdminController
         $this->initProcessFilter();
 
         if ($this->filter) {
-            $admin_menu = $this->context->admin_menu
+            $admin_menu = app()->context->admin_menu
                           ->leftJoin('admin_menu_heading', 'admin_menu_heading.id', '=', 'admin_menu.id_head')
                           ->select('admin_menu.*')
           ->orderBy('id', 'desc')
           ->where($this->filter_search);
         } else {
-            $admin_menu = $this->context->admin_menu
+            $admin_menu = app()->context->admin_menu
           ->orderBy('id', 'desc');
         }
 
@@ -83,7 +83,7 @@ class AdminMenuController extends AdminController
           ];
         }
 
-        $this->obj = $this->context->admin_menu;
+        $this->obj = app()->context->admin_menu;
         if ($id) {
             $this->obj = $this->obj->find($id);
         }
@@ -107,7 +107,7 @@ class AdminMenuController extends AdminController
     public function initProcessCreate($id = null)
     {
         $data = $this->validateFields();
-        $this->obj = $this->context->admin_menu;
+        $this->obj = app()->context->admin_menu;
 
         if ($id) {
             $this->obj = $this->obj->find($id);
@@ -128,7 +128,7 @@ class AdminMenuController extends AdminController
 
     public function initProcessDelete($id = null)
     {
-        $obj = $this->context->admin_menu->find($id);
+        $obj = app()->context->admin_menu->find($id);
         if ($obj) {
             $obj->delete();
             $this->flash('success', 'Admin Menu with title <strong>' . $obj->name . '</strong> is deleted successufully');

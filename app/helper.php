@@ -14,17 +14,18 @@ function pre($array, $exit = true)
     }
 }
 
-function theme($file, $global = false)
+function theme($file, $global = false, $secure = null)
 {
     if ($global) {
-      return url('resources/views/_shared/' . $file);
+      return app('url')->asset('_shared/' . $file, $secure);
     }
 
     if (config('modilara.app_scope') == 'admin') {
-      return url('resources/views/admin/' . config('modilara.admin_theme') . '/' . $file);
+        return app('url')->asset('admin/' . $file, $secure);
+        // return url('resources/views/admin/' . config('modilara.admin_theme') . '/' . $file);
     }
-
-    return url('resources/views/front/' . config('modilara.front_theme') . '/' . $file);
+    return app('url')->asset('front/' . $file, $secure);
+    // return url('resources/views/front/' . config('modilara.front_theme') . '/' . $file);
 }
 
 function json($status, $message, $data = array())
@@ -257,14 +258,14 @@ function makeColumn($field)
     if (is_array($field)) {
       $co = [];
       foreach ($field as $key => $f) {
-        $field[$key] = str_slug($f);
+        $field[$key] = \Str::slug($f);
         $field[$key] = str_replace('-', '_', $f);
         $field[$key] = str_replace(' ', '_', $field[$key]);
         $field[$key] = strtolower($field[$key]);
       }
       return $field;
     } else {
-      $column = str_slug($field);
+      $column = \Str::slug($field);
       $column = str_replace('-', '_', $column);
       return $column;
     }

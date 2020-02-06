@@ -71,9 +71,9 @@ class ComponentController extends AdminController
           }
         }
 
-        $component = $this->context->component;
+        $component = app()->context->component;
         if ($id) {
-          $component = $this->context->component->find($id);
+          $component = app()->context->component->find($id);
         }
 
         $column_types = [
@@ -120,29 +120,29 @@ class ComponentController extends AdminController
     {
         $data = $this->validateFields();
 
-        $field_type = Input::get('column_type');
-        $required = Input::get('required_field');
-        $listing = Input::get('use_in_listing');
-        $default = Input::get('default');
-        $fillable = Input::get('fillable');
-        $class = Input::get('class');
-        $input_type = Input::get('input_type');
-        $relationship_type = Input::get('relationship_type');
-        $relational_component_name = Input::get('relational_component_name');
-        $foreign_key = Input::get('foreign_key');
-        $local_key = Input::get('local_key');
-        $mediator_table = Input::get('mediator_table');
-        $mediator_table_key = Input::get('mediator_table_key');
-        $reference_name = Input::get('reference_name');
+        $field_type = input('column_type');
+        $required = input('required_field');
+        $listing = input('use_in_listing');
+        $default = input('default');
+        $fillable = input('fillable');
+        $class = input('class');
+        $input_type = input('input_type');
+        $relationship_type = input('relationship_type');
+        $relational_component_name = input('relational_component_name');
+        $foreign_key = input('foreign_key');
+        $local_key = input('local_key');
+        $mediator_table = input('mediator_table');
+        $mediator_table_key = input('mediator_table_key');
+        $reference_name = input('reference_name');
 
-        $this->relationship_type = Input::get('relationship_type');
-        $this->fields = makeColumn(Input::get('field'));
-        $this->table_fields = makeColumn(Input::get('field'));
-        $this->local_key = Input::geT('local_key');
-        $this->variable = Input::get('variable');
+        $this->relationship_type = input('relationship_type');
+        $this->fields = makeColumn(input('field'));
+        $this->table_fields = makeColumn(input('field'));
+        $this->local_key = input('local_key');
+        $this->variable = input('variable');
 
-        if (count(Input::get('column_type'))) {
-          foreach (Input::get('column_type') as $key => $ct) {
+        if (count(input('column_type'))) {
+          foreach (input('column_type') as $key => $ct) {
             $key_number = $key + 1;
             if (!$ct) {
               return json('error', 'Please provide column type for column ' . $key_number);
@@ -186,25 +186,25 @@ class ComponentController extends AdminController
           }
         }
 
-        if (!$id && Schema::hasTable(Input::get('table'))) {
+        if (!$id && Schema::hasTable(input('table'))) {
           return json('error', t('Table already exists'));
         }
 
-        $component = $this->context->component;
+        $component = app()->context->component;
 
         $actual = new \stdClass;
 
-        if (!$id && $component->check('variable', Input::get('variable'))) {
+        if (!$id && $component->check('variable', input('variable'))) {
           return json('error', t('Variable is already in use, please choose another'));
         }
 
         if ($id) {
-          $component = $this->context->component->find($id);
-          $actual = $this->context->component->find($id);
+          $component = app()->context->component->find($id);
+          $actual = app()->context->component->find($id);
           $this->component = $component;
         }
 
-        $c = $this->context->component->where('variable', Input::get('variable'))->first();
+        $c = app()->context->component->where('variable', input('variable'))->first();
         if (c($c)) {
           // $c->fields()->delete();
           // $c->delete();
@@ -213,18 +213,18 @@ class ComponentController extends AdminController
 
         $this->component = $component;
 
-        $component->name = Input::get('name');
-        $component->table = Input::get('table');
-        $component->variable = Input::get('variable');
-        $component->slug = Input::get('slug');
-        $component->controller = Input::get('controller');
-        $component->is_admin_create = Input::get('is_admin_create');
-        $component->is_admin_list = Input::get('is_admin_list');
-        $component->is_admin_delete = Input::get('is_admin_delete');
-        $component->is_front_create = Input::get('is_front_create');
-        $component->is_front_view = Input::get('is_front_view');
-        $component->is_front_list = Input::get('is_front_list');
-        $component->is_meta_needed = Input::get('is_meta_needed');
+        $component->name = input('name');
+        $component->table = input('table');
+        $component->variable = input('variable');
+        $component->slug = input('slug');
+        $component->controller = input('controller');
+        $component->is_admin_create = input('is_admin_create');
+        $component->is_admin_list = input('is_admin_list');
+        $component->is_admin_delete = input('is_admin_delete');
+        $component->is_front_create = input('is_front_create');
+        $component->is_front_view = input('is_front_view');
+        $component->is_front_list = input('is_front_list');
+        $component->is_meta_needed = input('is_meta_needed');
         $component->save();
 
         if ($id && count($component->fields)) {
@@ -232,20 +232,20 @@ class ComponentController extends AdminController
         }
 
         if (count($this->fields)) {
-          $field_type = Input::get('column_type');
-          $required = Input::get('required_field');
-          $listing = Input::get('use_in_listing');
-          $default = Input::get('default');
-          $fillable = Input::get('fillable');
-          $class = Input::get('class');
-          $input_type = Input::get('input_type');
-          $relationship_type = Input::get('relationship_type');
-          $relational_component_name = Input::get('relational_component_name');
-          $foreign_key = Input::get('foreign_key');
-          $local_key = Input::get('local_key');
-          $mediator_table = Input::get('mediator_table');
-          $mediator_table_key = Input::get('mediator_table_key');
-          $reference_name = Input::get('ref_name');
+          $field_type = input('column_type');
+          $required = input('required_field');
+          $listing = input('use_in_listing');
+          $default = input('default');
+          $fillable = input('fillable');
+          $class = input('class');
+          $input_type = input('input_type');
+          $relationship_type = input('relationship_type');
+          $relational_component_name = input('relational_component_name');
+          $foreign_key = input('foreign_key');
+          $local_key = input('local_key');
+          $mediator_table = input('mediator_table');
+          $mediator_table_key = input('mediator_table_key');
+          $reference_name = input('ref_name');
 
           foreach ($this->fields as $key => $field) {
             if ($field_type[$key] == 'relationship' && $relationship_type[$key] == 'belongsToMany') {
@@ -287,7 +287,7 @@ class ComponentController extends AdminController
         }
 
         $this->component_fields = $component->fields;
-        if (Input::get('is_meta_needed')) {
+        if (input('is_meta_needed')) {
           $cf = new \App\Objects\ComponentFields;
           $cf->id_component = $component->id;
           $cf->field_name = 'meta_title';
@@ -336,7 +336,7 @@ class ComponentController extends AdminController
         $this->initProcessObjectFile($actual); //Check 1 Done
         $this->initProcessViewFile($actual);  //Check 1 Done
         $this->initProcessControllerFile($actual); //Check 1 Done
-        if (!$id || Input::get('reset')) {
+        if (!$id || input('reset')) {
           $this->initProcessRouteFile($actual); //Check 1 Done
         }
 
@@ -350,19 +350,19 @@ class ComponentController extends AdminController
     public function initProcessCreateTable($actual)
     {
         //Is table require to rename?
-        if (isset($actual->table) && $actual->table != Input::get('table')) {
-          Schema::rename($actual->table, Input::get('table'));
+        if (isset($actual->table) && $actual->table != input('table')) {
+          Schema::rename($actual->table, input('table'));
         }
 
-        if (Schema::hasTable(Input::get('table'))) {
-          Schema::table(Input::get('table'), function($table) {
+        if (Schema::hasTable(input('table'))) {
+          Schema::table(input('table'), function($table) {
             $generic_keys = ['id', 'id_website', 'id_lang', 'created_at', 'updated_at', 'deleted_at'];
-            $table_columns = Schema::getColumnListing(Input::get('table'));
+            $table_columns = Schema::getColumnListing(input('table'));
             $added_table_columns = array_values(array_diff($table_columns, $generic_keys));
             $rename_columns = [];
             //Check if any column is renamed by comparing $this->fields & $added_table_columns
             // foreach ($this->fields as $key_fie => $fie) {
-            //   if (isset($added_table_columns[$key_fie]) && $added_table_columns[$key_fie] != $fie && !Schema::hasColumn(Input::get('table'), $fie)) { // if this condition matched than rename require
+            //   if (isset($added_table_columns[$key_fie]) && $added_table_columns[$key_fie] != $fie && !Schema::hasColumn(input('table'), $fie)) { // if this condition matched than rename require
             //     $rename_columns[] = $added_table_columns[$key_fie];
             //     $table->renameColumn($added_table_columns[$key_fie], $fie);
             //     $array_key = array_search($fie, $this->fields);
@@ -389,16 +389,16 @@ class ComponentController extends AdminController
               foreach ($field_filter as $f) {
                 $field = $this->component_fields->where('field_name', $f)->first();
                 if ($field && $field->relationship_type != 'belongstoMany' ) {
-                  if (Schema::hasColumn(Input::get('table'), $f) && !in_array($f, $rename_columns)) {
+                  if (Schema::hasColumn(input('table'), $f) && !in_array($f, $rename_columns)) {
                     $table->dropColumn(makeColumn($f));
                   }
                 }
               }
             }
 
-            $column_type = Input::get('column_type');
-            $required = Input::get('required_field');
-            $default = Input::get('default');
+            $column_type = input('column_type');
+            $required = input('required_field');
+            $default = input('default');
             $l = null;
 
             if (count($this->table_fields)) {
@@ -406,13 +406,13 @@ class ComponentController extends AdminController
               ->where('relationship_type', '!=', 'belongsToMany')
               ->where('relationship_type', '!=', 'hasMany');
               foreach ($fields_list as $key => $column) {
-                $column_name = str_slug($column->field_name);
+                $column_name = \Str::slug($column->field_name);
                 $column_name = str_replace('-', '_', $column->field_name);
                 if ($column->relationship_type == 'belongsToMany' || $column->relationship_type == 'hasMany') {
                   continue;
                 }
 
-                if ($column && !Schema::hasColumn(Input::get('table'), $column_name)) {
+                if ($column && !Schema::hasColumn(input('table'), $column_name)) {
                   if (!$column->column_type) {
                     return json('error', 'Please provide column type for ' . $column_name);
                   }
@@ -441,12 +441,12 @@ class ComponentController extends AdminController
             $table->engine = 'InnoDB';
           });
         } else {
-          Schema::create(Input::get('table'), function (Blueprint $table) {
-            $column_type = Input::get('column_type');
-            $required = Input::get('required_field');
-            $default = Input::get('default');
-            $meta = Input::get('is_meta_needed');
-            $local_key = Input::get('local_key');
+          Schema::create(input('table'), function (Blueprint $table) {
+            $column_type = input('column_type');
+            $required = input('required_field');
+            $default = input('default');
+            $meta = input('is_meta_needed');
+            $local_key = input('local_key');
             $l = NULL;
 
             $table->increments('id');
@@ -454,7 +454,7 @@ class ComponentController extends AdminController
             if (count($this->fields)) {
               foreach ($this->fields as $key => $column) {
                 if ($column && ($this->relationship_type[$key] != 'belongsToMany' && $this->relationship_type[$key] != 'hasMany')) {
-                  $column = str_slug($column);
+                  $column = \Str::slug($column);
                   $column = str_replace('-', '_', $column);
 
                   if (!$column_type[$key]) {
@@ -509,7 +509,7 @@ class ComponentController extends AdminController
 
         // $filename = $data->table . '_table.php';
         $filename = $date . '_000000' . $data->id . '_' . $data->table . '_table.php';
-        if (Input::get('reset')) {
+        if (input('reset')) {
           $file = base_path('database/migrations/' . $filename);
           $rename_obj = $filename . '-' . date('Y-m-d H:i:s');
           if (file_exists($file)) {
@@ -532,22 +532,22 @@ class ComponentController extends AdminController
     public function initProcessContextFile($data)
     {
         $replace = null;
-        if (isset($data->variable) && $data->variable != Input::get('variable')) {
+        if (isset($data->variable) && $data->variable != input('variable')) {
           $replace = 'protected $' . $data->variable . ';';
         }
 
         $property_found = false;
-        $ref = new \ReflectionClass($this->context);
+        $ref = new \ReflectionClass(app()->context);
         $p = array_keys($ref->getDefaultProperties());
         $last_property = end($p);
-        $add_property = 'protected $' . Input::get('variable') . ';';
+        $add_property = 'protected $' . input('variable') . ';';
 
         $file = fopen(base_path('app/Classes/Context.php'), 'r+');
         $lines = file(base_path('app/Classes/Context.php'), FILE_IGNORE_NEW_LINES);
         $added_property = false;
 
         foreach ($lines as $line => $text) {
-          if (strpos($text, $replace) && $replace) {
+          if ($replace && strpos($text, $replace)) {
             $added_property = true;
             $lines[$line] = formatLine3($add_property);
           }
@@ -580,27 +580,27 @@ class ComponentController extends AdminController
 
     public function initProcessObjectFile($data)
     {
-        $field_type = Input::get('column_type');
-        $required = Input::get('required_field');
-        $listing = Input::get('use_in_listing');
-        $default = Input::get('default');
-        $fillable = Input::get('fillable');
-        $class = Input::get('class');
-        $input_type = Input::get('input_type');
-        $relationship_type = Input::get('relationship_type');
-        $relational_component_name = Input::get('relational_component_name');
-        $foreign_key = Input::get('foreign_key');
-        $local_key = Input::get('local_key');
-        $mediator_table = Input::get('mediator_table');
-        $mediator_table_key = Input::get('mediator_table_key');
-        $reference_name = Input::get('reference_name');
+        $field_type = input('column_type');
+        $required = input('required_field');
+        $listing = input('use_in_listing');
+        $default = input('default');
+        $fillable = input('fillable');
+        $class = input('class');
+        $input_type = input('input_type');
+        $relationship_type = input('relationship_type');
+        $relational_component_name = input('relational_component_name');
+        $foreign_key = input('foreign_key');
+        $local_key = input('local_key');
+        $mediator_table = input('mediator_table');
+        $mediator_table_key = input('mediator_table_key');
+        $reference_name = input('reference_name');
 
         $replace = false;
-        if (isset($data->variable) && Input::get('variable') != $data->variable) {
+        if (isset($data->variable) && input('variable') != $data->variable) {
           $replace = makeObject($data->variable);
         }
 
-        $object = makeObject(Input::get('variable'));
+        $object = makeObject(input('variable'));
         $this->object = $object;
         $replace_file = null;
         if ($replace) {
@@ -610,20 +610,20 @@ class ComponentController extends AdminController
         $pass = [
           'fields' => $this->component_fields->where('column_type', 'relationship'),
           'object' => $object,
-          'table' => Input::get('table')
+          'table' => input('table')
         ];
 
         if (!$replace) {
           if (!file_exists(base_path('app/Objects/' . $object . '.php'))) {
             $html = view('objecttemplate', $pass);
-            $core = $this->context->tools;
+            $core = app()->context->tools;
             $core->prepareHTML($html);
             $html = $core->buildHTML();
             $file = fopen(base_path('app/Objects/' . $object . '.php'), 'w');
             fwrite($file, '<?php' . PHP_EOL . $html);
             fclose($file);
           } else {
-            if (Input::get('reset')) {
+            if (input('reset')) {
               $file = base_path('app/Objects/' . $object . '.php');
               $rename_obj = $object . '-' . date('Y-m-d H:i:s');
               $backup = copy($file, base_path('storage/components/backups/objects/' . $rename_obj));
@@ -631,7 +631,7 @@ class ComponentController extends AdminController
               unlink($file);
 
               $html = view('objecttemplate', $pass);
-              $core = $this->context->tools;
+              $core = app()->context->tools;
               $core->prepareHTML($html);
               $html = $core->buildHTML();
               $file = fopen(base_path('app/Objects/' . $object . '.php'), 'w');
@@ -652,7 +652,7 @@ class ComponentController extends AdminController
             }
           } elseif (!file_exists(base_path('app/Objects/' . $object . '.php'))) {
             $html = view('objecttemplate', $pass);
-            $core = $this->context->tools;
+            $core = app()->context->tools;
             $core->prepareHTML($html);
             $html = $core->buildHTML();
             $file = fopen(base_path('app/Objects/' . $object . '.php'), 'w');
@@ -664,42 +664,42 @@ class ComponentController extends AdminController
 
     public function initProcessControllerFile($data)
     {
-        if (Input::get('is_controller_needed') == 'none') {
+        if (input('is_controller_needed') == 'none') {
           return true;
         }
 
         $replace = null;
 
         $pass = [
-          'variable' => Input::get('variable'),
-          'fields' => Input::get('field'),
-          'is_admin_list' => Input::get('is_admin_list'),
-          'is_admin_create' => Input::get('is_admin_create'),
-          'is_admin_delete' => Input::get('is_admin_delete'),
+          'variable' => input('variable'),
+          'fields' => input('field'),
+          'is_admin_list' => input('is_admin_list'),
+          'is_admin_create' => input('is_admin_create'),
+          'is_admin_delete' => input('is_admin_delete'),
           'object' => $this->object, // return object name in string,
           'comp_obj' => $this->component,
         ];
 
         //AdminController process
-        if (Input::get('controller') == 'both' || Input::get('controller') == 'admin') {
+        if (input('controller') == 'both' || input('controller') == 'admin') {
           $this->admin_controller = $this->object . 'Controller.php';
           if (!file_exists(base_path('app/Http/Controllers/AdminControllers/' . $this->admin_controller))) {
             $html = view('admincontrollertemplate', $pass);
-            $core = $this->context->tools;
+            $core = app()->context->tools;
             $core->prepareHTML($html);
             $html = $core->buildHTML();
             $file = fopen(base_path('app/Http/Controllers/AdminControllers/' . $this->admin_controller), 'w');
             fwrite($file, '<?php' . PHP_EOL . $html);
             fclose($file);
           } else {
-            if (Input::get('reset')) {
+            if (input('reset')) {
               $file = base_path('app/Http/Controllers/AdminControllers/' . $this->admin_controller);
               $rename_obj = $this->admin_controller . '-' . date('Y-m-d H:i:s');
               $backup = copy($file, base_path('storage/components/backups/controllers/admin/' . $rename_obj));
               unlink($file);
 
               $html = view('admincontrollertemplate', $pass);
-              $core = $this->context->tools;
+              $core = app()->context->tools;
               $core->prepareHTML($html);
               $html = $core->buildHTML();
               $file = fopen(base_path('app/Http/Controllers/AdminControllers/' . $this->admin_controller), 'w');
@@ -710,11 +710,11 @@ class ComponentController extends AdminController
         }
 
         //FrontController Process
-        if (Input::get('controller') == 'both' || Input::get('controller') == 'front') {
+        if (input('controller') == 'both' || input('controller') == 'front') {
           $this->front_controller = $this->object . 'Controller.php';
           if (!file_exists(base_path('app/Http/Controllers/FrontControllers/' . $this->front_controller))) {
             $html = view('frontcontrollertemplate', $pass);
-            $core = $this->context->tools;
+            $core = app()->context->tools;
             $core->prepareHTML($html);
             $html = $core->buildHTML();
             $file = fopen(base_path('app/Http/Controllers/FrontControllers/' . $this->front_controller), 'w');
@@ -726,7 +726,7 @@ class ComponentController extends AdminController
 
     public function initProcessRouteFile()
     {
-        if (!Input::get('slug')) {
+        if (!input('slug')) {
           return true;
         }
 
@@ -736,7 +736,7 @@ class ComponentController extends AdminController
 
     public function initProcessRouteAdmin()
     {
-        if (Input::get('controller') != 'admin' && Input::get('controller') != 'both') {
+        if (input('controller') != 'admin' && input('controller') != 'both') {
           return true;
         }
 
@@ -744,7 +744,7 @@ class ComponentController extends AdminController
           return json('error', 'Admin Controller file was not initiated');
         }
 
-        $route = Input::get('slug');
+        $route = input('slug');
         $add = [];
         $admin_controller = str_replace('.php', '', $this->admin_controller);
         $route_added = false;
@@ -757,18 +757,18 @@ class ComponentController extends AdminController
         $file = fopen(base_path('routes/admin.php'), 'r+'); //Open File
         $lines = file(base_path('routes/admin.php'), FILE_IGNORE_NEW_LINES); //Take line as array
 
-        if (Input::get('is_admin_create')) {
+        if (input('is_admin_create')) {
           $add[] = "Route::get('$route/add', '$admin_controller@initContentCreate')->name('$this->variable.add');";
           $add[] = "Route::post('$route/add', '$admin_controller@initProcessCreate');";
           $add[] = "Route::get('$route/edit/{id}', '$admin_controller@initContentCreate')->name('$this->variable.edit');";
           $add[] = "Route::post('$route/edit/{id}', '$admin_controller@initProcessCreate');";
         }
 
-        if (Input::get('is_admin_list')) {
+        if (input('is_admin_list')) {
           $add[] = "Route::get('$route', '$admin_controller@initListing')->name('$this->variable.list');";
         }
 
-        if (Input::get('is_admin_delete')) {
+        if (input('is_admin_delete')) {
           $add[] = "Route::get('$route/delete/{id}', '$admin_controller@initProcessDelete')->name('$this->variable.delete');";
         }
 
@@ -794,7 +794,7 @@ class ComponentController extends AdminController
 
     public function initProcessRouteWeb()
     {
-        if (Input::get('controller') != 'front' && Input::get('controller') != 'both') {
+        if (input('controller') != 'front' && input('controller') != 'both') {
           return true;
         }
 
@@ -802,7 +802,7 @@ class ComponentController extends AdminController
           return json('error', 'Front Controller file was not initiated');
         }
 
-        $route = Input::get('slug');
+        $route = input('slug');
         $add = [];
         $front_controller = str_replace('.php', '', $this->front_controller);
         $route_file = file_get_contents(base_path('routes/web.php'));
@@ -813,22 +813,22 @@ class ComponentController extends AdminController
         $file = fopen(base_path('routes/web.php'), 'r+'); //Open File
         $lines = file(base_path('routes/web.php'), FILE_IGNORE_NEW_LINES); //Take line as array
 
-        if (Input::get('is_front_create')) {
+        if (input('is_front_create')) {
           $add[] = "Route::get('$route/add', '$front_controller@initContentCreate');";
           $add[] = "Route::post('$route/add', '$front_controller@initProcessCreate');";
         }
 
-        if (Input::get('is_front_list')) {
+        if (input('is_front_list')) {
           $add[] = "Route::get('$route', '$front_controller@initListing');";
         }
 
-        if (Input::get('is_front_view')) {
+        if (input('is_front_view')) {
           $add[] = "Route::get('$route/{url}', '$front_controller@initContent');";
         }
 
         $add_line = "\t// @front $front_controller routes@ Added from component controller\n";
         foreach ($add as $a) {
-          if (Input::get('is_login_needed')) {
+          if (input('is_login_needed')) {
             $add_line .= formatLine2($a, 1);
           } else {
             $add_line .= formatLine2($a, 0);
@@ -837,9 +837,9 @@ class ComponentController extends AdminController
 
         if ($add_line) {
           foreach ($lines as $line => $text) {
-            if (Input::get('is_login_needed') && strpos($text, "['middleware' => 'auth']")) {
+            if (input('is_login_needed') && strpos($text, "['middleware' => 'auth']")) {
               $lines[$line + 1] = $add_line;
-            } elseif (!Input::get('is_login_needed') && strpos($text, 'Route Starts')) {
+            } elseif (!input('is_login_needed') && strpos($text, 'Route Starts')) {
               $lines[$line + 2] = $add_line;
             }
           }
@@ -861,28 +861,28 @@ class ComponentController extends AdminController
 
     public function initProcessGenerateFrontViewFiles()
     {
-        if (Input::get('controller') != 'front' && Input::get('controller') != 'both') {
+        if (input('controller') != 'front' && input('controller') != 'both') {
           return true;
         }
 
-        if (Input::get('is_front_create')) {
-          $dir = base_path('resources/front/' . config('adlara.front_theme')) . '/templates/' . Input::get('variable');
+        if (input('is_front_create')) {
+          $dir = base_path('resources/views/front/' . config('modilara.front_theme')) . '/templates/' . input('variable');
           if (!file_exists($dir . '/create.blade.php')) {
             $html = file_get_contents(base_path('storage/components/templates/create-template-front.blade.php'));
             writeFile($dir, 'create.blade.php', $html);
           }
         }
 
-        if (Input::get('is_front_list')) {
-          $dir = base_path('resources/front/' . config('adlara.front_theme')) . '/templates/' . Input::get('variable');
+        if (input('is_front_list')) {
+          $dir = base_path('resources/views/front/' . config('modilara.front_theme')) . '/templates/' . input('variable');
           if (!file_exists($dir . '/list.blade.php')) {
             $html = file_get_contents(base_path('storage/components/templates/list-template-front.blade.php'));
             writeFile($dir, 'list.blade.php', $html);
           }
         }
 
-        if (Input::get('is_front_view')) {
-          $dir = base_path('resources/front/' . config('adlara.front_theme')) . '/templates/' . Input::get('variable');
+        if (input('is_front_view')) {
+          $dir = base_path('resources/views/front/' . config('modilara.front_theme')) . '/templates/' . input('variable');
           if (!file_exists($dir . '/view.blade.php')) {
             $html = file_get_contents(base_path('storage/components/templates/view-template-front.blade.php'));
             writeFile($dir, 'view.blade.php', $html);
@@ -892,11 +892,11 @@ class ComponentController extends AdminController
 
     public function initProcessGenerateAdminViewFiles()
     {
-        if (Input::get('controller') != 'admin' && Input::get('controller') != 'both') {
+        if (input('controller') != 'admin' && input('controller') != 'both') {
           return true;
         }
 
-        $c = $this->context->component->where('variable', Input::get('variable'))->first();
+        $c = app()->context->component->where('variable', input('variable'))->first();
 
         $pass = [
           'fillable' => $c->fields
@@ -907,12 +907,12 @@ class ComponentController extends AdminController
           'component' => $c
         ];
 
-        if (Input::get('is_admin_create')) {
-          $dir = base_path('resources/admin/' . config('adlara.admin_theme')) . '/templates/' . Input::get('variable');
+        if (input('is_admin_create')) {
+          $dir = base_path('resources/views/admin/' . config('modilara.admin_theme')) . '/templates/' . input('variable');
           $create_file = $dir . '/create.blade.php';
-          if (Input::get('reset')) {
+          if (input('reset')) {
             $rename_obj = 'create.blade.php-' . date('Y-m-d H:i:s');
-            $base_path = base_path('storage/components/backups/views/admin/' . Input::get('variable'));
+            $base_path = base_path('storage/components/backups/views/admin/' . input('variable'));
             if (!file_exists($base_path)) {
               mkdir($base_path);
             }
@@ -923,20 +923,21 @@ class ComponentController extends AdminController
           }
 
           $html = view('create-template-admin', $pass);
-          $core = $this->context->tools;
+          $core = app()->context->tools;
           $core->prepareHTML($html);
           $html = $core->buildHTML();
+
           writeFile($dir, 'create.blade.php', $html);
         }
 
 
-        if (Input::get('is_admin_list')) {
-          $dir = base_path('resources/admin/' . config('adlara.admin_theme') . '/templates/' . Input::get('variable'));
+        if (input('is_admin_list')) {
+          $dir = base_path('resources/views/admin/' . config('modilara.admin_theme') . '/templates/' . input('variable'));
           $list_file = $dir . '/' . 'list.blade.php';
-          if (!file_exists($dir . '/list.blade.php') || Input::get('reset')) {
-            if (Input::get('reset')) {
+          if (!file_exists($dir . '/list.blade.php') || input('reset')) {
+            if (input('reset')) {
               $rename_obj = 'list.blade.php-' . date('Y-m-d H:i:s');
-              $base_path = base_path('storage/components/backups/views/admin/' . Input::get('variable'));
+              $base_path = base_path('storage/components/backups/views/admin/' . input('variable'));
               if (!file_exists($base_path)) {
                 mkdir($base_path);
               }
@@ -946,9 +947,9 @@ class ComponentController extends AdminController
                 unlink($list_file);
               }
 
-              $file2 = $dir . '/_partials/' . 'list-only-' . Input::get('variable') . '.blade.php';
+              $file2 = $dir . '/_partials/' . 'list-only-' . input('variable') . '.blade.php';
               $rename_obj2 = 'list-only-' . date('Y-m-d H:i:s');
-              $base_path = base_path('storage/components/backups/views/admin/' . Input::get('variable'));
+              $base_path = base_path('storage/components/backups/views/admin/' . input('variable'));
               if (!file_exists($base_path)) {
                 mkdir($base_path);
               }
@@ -960,7 +961,7 @@ class ComponentController extends AdminController
 
             $pass = [
               'listable' => $c->fields->where('use_in_listing', 1),
-              'variable' => Input::get('variable'),
+              'variable' => input('variable'),
               'component' => $c
             ];
 
@@ -968,8 +969,8 @@ class ComponentController extends AdminController
             writeFile($dir, 'list.blade.php', $html);
 
             $html = writeHTML('list-only-template-admin', $pass);
-            $dir = base_path('resources/admin/' . config('adlara.admin_theme') . '/templates/' . Input::get('variable') . '/_partials/');
-            writeFile($dir, 'list-only-' . Input::get('variable') . '.blade.php', $html);
+            $dir = base_path('resources/views/admin/' . config('modilara.admin_theme') . '/templates/' . input('variable') . '/_partials/');
+            writeFile($dir, 'list-only-' . input('variable') . '.blade.php', $html);
           }
         }
     }
@@ -985,11 +986,11 @@ class ComponentController extends AdminController
         $this->initProcessFilter();
 
         if ($this->filter) {
-          $components = $this->context->component
+          $components = app()->context->component
           ->where($this->filter_search)
           ->orderBy('id', 'desc');
         } else {
-          $components = $this->context->component
+          $components = app()->context->component
           ->orderBy('id', 'desc');
         }
 
@@ -1004,8 +1005,8 @@ class ComponentController extends AdminController
 
     public function initDeleting($id)
     {
-        $this->context->component->find($id)->delete();
-        $this->context->component_fields
+        app()->context->component->find($id)->delete();
+        app()->context->component_fields
         ->where('id_component', $id)
         ->delete();
     }
@@ -1018,7 +1019,7 @@ class ComponentController extends AdminController
     public function initProcessGetRealtionalComponentFields()
     {
         $html = [];
-        $component = $this->context->component->find(Input::get('rel_comp_id'));
+        $component = app()->context->component->find(input('rel_comp_id'));
         $cp = Schema::getColumnListing($component->table);
 
         foreach ($cp as $key => $c) {

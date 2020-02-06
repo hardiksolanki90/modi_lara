@@ -4,49 +4,43 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Material+Icons" rel="stylesheet">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="icon" href="{{ url('favicon.ico') }}" type="image/gif">
-    <title>{{ $page['title'] }} • {{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $page['title'] }} • {{ config('app.name', 'Modilara') }}</title>
 
     <link rel="canonical" href="{{ url()->current() }}">
-
     <!-- Styles -->
     @if (count($css_files))
       @foreach ($css_files as $css)
         <link type="text/css" href="{{ $css }}" rel="stylesheet">
       @endforeach
     @endif
+
     <script type="text/javascript">
       CSRF = '{{ csrf_token() }}';
       CURRENT_URL = '{{ url()->current() }}';
-      const ADMIN_URL = '{{ url(config('modilara.admin_route')) }}';
-      var images_block_count = 1;
-      var saved_parts = [];
-      var static_blocks_count = 1;
-      var equipment_colors = [];
-      var equipment = [];
+      const ADMIN_URL = '{{ url(config('modilara.admin_route')) }}'
     </script>
 </head>
-<body>
+<body class="sidebar-mini layout-fixed">
     @include('media._partials.upload')
     @include('media._partials.library')
-    <div id="app">
-      <nav class="navbar navbar-expand-md navbar-light navbar-adlara">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div id="app" class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+          <!-- Left navbar links -->
+          <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="mdi mdi-reorder-horizontal left" style="font-size: 20px;"></i></a>
+              </li>
+              <li class="nav-item"><a class="nav-link" href="#">{{ $page['title'] }}</a></li>
+          </ul>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-                <li><a class="nav-link" href="#">{{ $page['title'] }}</a></li>
-            </ul>
 
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto dropdown _lll align-center">
+          <!-- Right navbar links -->
+          <ul class="navbar-nav ml-auto _lll align-center">
               @if (count($page['action_links']))
                 @foreach ($page['action_links'] as $link)
                   <li>
@@ -60,31 +54,33 @@
                 @endforeach
               @endif
               <li>
-                <a class="nav-link _vl" href="{{ url('') }}" target="_balnk">
+                <a class="_vl" href="{{ url('') }}" class="hidden-sm-and-down" target="_balnk">
                   Visit Site
-                  <i class="ion-ios-redo-outline"></i>
+                  <i class="mdi mdi-open-in-new"></i>
                 </a>
               </li>
-              <li class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Jigesh
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <div class="dropdown-item noti-title">
-                      <h6 class="text-overflow m-0">Welcome !</h6>
+              <li class="nav-item dropdown">
+                  <a class="nav-link" data-toggle="dropdown" href="#">
+                    {{ app()->context->admin_user->getAdminUser()->name }}
+                  </a>
+                  <div class="dropdown-menu dropdown-menu dropdown-menu-right">
+                      <a href="{{ route('employee.logout') }}" class="dropdown-item">
+                        <i class="mdi mdi-power-standby mr-2"></i> Logout
+                      </a>
                   </div>
-                  <li><a class="dropdown-item" href="{{ route('employee.logout') }}">Logout</a></li>
-                </ul>
               </li>
-            </ul>
-        </div>
-      </nav>
-      <div class="flex wr">
+          </ul>
+        </nav>
+        <!-- /.navbar -->
         @include('_partials.sidebar')
-        <main class="py-4 main-app">
-          @yield('content')
-        </main>
-      </div>
+        <div class="content-wrapper">
+            <section class="content pt-3">
+                <div class="container-fluid">
+                    @yield('content')
+                </div>
+            </section>
+        </div>
     </div>
-
     <!-- Scripts -->
     @if (count($js_files))
       @foreach ($js_files as $js)

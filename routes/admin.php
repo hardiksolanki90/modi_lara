@@ -5,6 +5,29 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'admin'], function () {
+				// @CustomerController routes@ Added from component controller
+				Route::get('customer/add', 'CustomerController@initContentCreate')->name('customer.add');
+				Route::post('customer/add', 'CustomerController@initProcessCreate');
+				Route::get('customer/edit/{id}', 'CustomerController@initContentCreate')->name('customer.edit');
+				Route::post('customer/edit/{id}', 'CustomerController@initProcessCreate');
+				Route::get('customer', 'CustomerController@initListing')->name('customer.list');
+				Route::get('customer/delete/{id}', 'CustomerController@initProcessDelete')->name('customer.delete');
+
+    Route::get('privacy/policy/add', 'PrivacyPolicyController@initContentCreate')->name('privacy_policy.add');
+    Route::post('privacy/policy/add', 'PrivacyPolicyController@initProcessCreate');
+    Route::get('privacy/policy/edit/{id}', 'PrivacyPolicyController@initContentCreate')->name('privacy_policy.edit');
+    Route::post('privacy/policy/edit/{id}', 'PrivacyPolicyController@initProcessCreate');
+    Route::get('privacy/policy', 'PrivacyPolicyController@initListing')->name('privacy_policy.list');
+    Route::get('privacy/policy/delete/{id}', 'PrivacyPolicyController@initProcessDelete')->name('privacy_policy.delete');
+
+    Route::get('test/add', 'TestController@initContentCreate')->name('test.add');
+    Route::post('test/add', 'TestController@initProcessCreate');
+    Route::get('test/edit/{id}', 'TestController@initContentCreate')->name('test.edit');
+    Route::post('test/edit/{id}', 'TestController@initProcessCreate');
+    Route::get('test', 'TestController@initListing')->name('test.list');
+    Route::get('test/delete/{id}', 'TestController@initProcessDelete')->name('test.delete');
+
+    
     Route::get('dashboard', 'DashboardController@initContent')->name('admin.dashboard');
     Route::get('logout', 'EmployeeController@initProcessLogout')->name('employee.logout');
 
@@ -70,16 +93,33 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('component/edit/{id}', 'ComponentController@initContentCreate')->name('component.edit');
     Route::post('component/edit/{id}', 'ComponentController@initProcessCreate');
     Route::get('component/list', 'ComponentController@initListing')->name('component.list');
+    Route::post('component/relational', 'ComponentController@initProcessGetRealtionalComponentFields');
+
+    Route::get('configuration', 'ConfigurationController@initContentCreate')->name('configuration');
+    Route::post('configuration', 'ConfigurationController@initProcessCreate');
+    Route::get('reset/assets', 'ConfigurationController@initProcessResetAssets')->name('reset.assets');
+
+    // @EmailController routes@ Added from email controller
+    Route::get('email/add', 'EmailController@initContentCreate')->name('email.add');
+    Route::post('email/add', 'EmailController@initProcessCreate');
+    Route::get('email/edit/{id}', 'EmailController@initContentCreate')->name('email.edit');
+    Route::post('email/edit/{id}', 'EmailController@initProcessCreate');
+    Route::get('email', 'EmailController@initListing')->name('email.list');
+    Route::get('email/delete/{id}', 'EmailController@initProcessDelete')->name('email.delete');
     
 });
 
 Route::group(['prefix' => 'employee'], function () {
     Route::get('register', 'EmployeeController@initContentRegister')->name('employee.register');
     Route::post('register', 'EmployeeController@initProcessRegister');
+    Route::get('edit/{id}', 'EmployeeController@initContentRegister')->name('employee.edit');
+    Route::post('edit/{id}', 'EmployeeController@initProcessRegister');
+
+    Route::get('delete/{id}', 'EmployeeController@initProcessDelete');
+    Route::get('list', 'EmployeeController@initListing')->name('employee.list');
 });
 
 Route::group(['middleware' => 'admin_guest'], function () {
-
     Route::get('secure/challenge', 'AdminAuthController@initContent')->name('adminroute');
     Route::post('secure/challenge', 'AdminAuthController@initProcessLogin');
 

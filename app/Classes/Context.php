@@ -12,7 +12,13 @@ class Context
     protected $form;
 
     protected $tools;
-    
+
+		protected $test;
+
+		protected $privacy_policy;
+
+		protected $customer;
+
     public static function getContext()
     {
         if (!self::$instance) {

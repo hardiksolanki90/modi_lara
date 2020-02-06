@@ -30,7 +30,7 @@ class ConfigurationController extends AdminController
           'icon' => '<i class="material-icons">&#xE8B3;</i>'
         ];
 
-        $configuration = $this->context->configuration;
+        $configuration = app()->context->configuration;
 
         $ADMIN_EMAIL = $configuration->where('name', '=', 'ADMIN_EMAIL')->pluck('value')->first();
         $SITE_URL = $configuration->where('name', '=', 'SITE_URL')->pluck('value')->first();

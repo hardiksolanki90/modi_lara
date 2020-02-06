@@ -1,35 +1,89 @@
 <?php
-
 namespace App\Http\Controllers\AdminControllers;
 
 use App\Http\Controllers\AdminController;
+use Input;
 use Illuminate\Http\Request;
-use App\Objects\Page;
-use App\Objects\PageBlocks;
 
 class PageController extends AdminController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->component = app()->context->component
+        ->where(['variable' => 'page'])
+        ->first();
+    }
+
+    public function initListing(Request $request)
+    {
+        if ($this->component->is_admin_create) {
+          $this->page['action_links'][] = [
+            'text' => t('Add ' . $this->component->name),
+            'slug' => route($this->component->variable . '.add'),
+            'icon' => '<i class="material-icons">add_circle_outline</i>'
+          ];
+        }
+
+        $this->initProcessFilter();
+
+        if ($this->filter) {
+          $page = app()->context->page
+          ->orderBy('id', 'desc')
+          ->where($this->filter_search);
+        } else {
+          $page = app()->context->page
+          ->orderBy('id', 'desc');
+        }
+
+        $this->page['badge'] = count($page->get());
+        $this->obj = $page->paginate(25);
+
+        $listable = $this->component->fields
+        ->where('use_in_listing', 1);
+
+        $this->assign = [
+          'listable' => $listable,
+          'variable' => 'page'
+        ];
+
+        if ($request->ajax()) {
+          $data = $this->assign;
+          $html = getAdminTemplate('page/_partials/list-only-page', $data, true);
+          return json('success', $html, true, prepareHTML($page->paginate(25)->links()));
+        }
+
+        return $this->template('page.list');
+    }
 
     public function initContentCreate($id = null)
     {
-        $page = new Page;
-
-        if ($id) {
-          $page = Page::find($id);
+        if ($this->component->is_admin_list) {
+          $this->page['action_links'][] = [
+            'text' => t($this->component->name),
+            'slug' => AdminURL($this->component->slug),
+            'icon' => '<i class="ion-ios-list-outline"></i>'
+          ];
         }
 
-        $this->page['action_links'][] = [
-            'text' => 'List',
-            'slug' => route('page.list'),
-            'icon' => '<i class="material-icons">reply</i>'
-        ];
+        if ($this->component->is_admin_create && $id) {
+          $this->page['action_links'][] = [
+            'text' => t('Add'),
+            'slug' => AdminURL($this->component->slug . '/add'),
+            'icon' => '<i class="ion-ios-plus-outline"></i>'
+          ];
+        }
 
-        $page->static_blocks = $page->preparedBlocks();
+        $this->obj = app()->context->page;
+        if ($id) {
+          $this->obj = $this->obj->find($id);
+        }
 
-        $this->obj = $page;
+        $fillable = $this->component->fields
+        ->where('is_fillable', 1);
 
         $this->assign = [
-          'obj' => $page
+          'fillable' => $fillable
         ];
 
         return $this->template('page.create');
@@ -37,107 +91,51 @@ class PageController extends AdminController
 
     public function initProcessCreate($id = null)
     {
-
-        $page = new Page;
+        $data = $this->validateFields();
+        $this->obj = app()->context->page;
 
         if ($id) {
-          $page = Page::find($id);
+          $this->obj = $this->obj->find($id);
         }
 
-        $page->title = request()->input('title');
-        $page->url = \Str::slug(request()->input('url'));
-        $page->sub_title = request()->input('sub_title');
-        $page->quote_form_content = protectedString(request()->input('quote_form_content'));
-        $page->quote_form_title = request()->input('quote_form_title');
-        $page->content = protectedString(request()->input('content'));
-        $page->template = request()->input('template');
-        $page->transparent_header = request()->input('transparent_header');
-        $page->show_lead_form = request()->input('show_lead_form');
-        $page->id_image = request()->input('id_image');
-        $page->id_video = request()->input('id_video');
-        $page->meta_title = request()->input('meta_title');
-        $page->meta_description = request()->input('meta_description');
-        $page->save();
+        $fillables = $this->component->fields
+        ->where('is_fillable', 1);
 
-        $this->savePageBlocks($page);
-
-        return array(
-          'status' => 'redirect',
-          'message' => AdminURL('page/edit/' . $page->id)
-        );
-
-    }
-
-    public function initListing()
-    {
-        $this->page['action_links'][] = [
-          'text' => t('Add Page'),
-          'slug' => route('page.add'),
-          'icon' => '<i class="material-icons">add_circle_outline</i>'
-        ];
-
-        $this->initProcessFilter();
-
-        $pages = Page::orderBy('id', 'desc');
-
-        $this->page['badge'] = $pages->count();
-
-        $this->obj = $pages->paginate(25);
-
-        return $this->template('page.list');
-    }
-
-    private function savePageBlocks($data)
-    {
-
-        $block_content_head = request()->input('block_content_head');
-        $block_content = request()->input('block_content');
-        $block_image = request()->input('block_image');
-        $block_image_position = request()->input('block_image_position');
-        $block_class = request()->input('block_class');
-        $block_reference = request()->input('block_reference');
-        $block_position = request()->input('position');
-        $block_content_position = request()->input('content_position');
-
-        // saved_blocks IDS
-        $saved_blocks = PageBlocks::where('id_page', $data->id)->get()->pluck('id')->toArray();
-
-        if (is_array($block_content) && count($block_content)) {
-
-            foreach ($block_content as $key => $content) {
-
-                if (!$content) {
-                  continue;
-                }
-
-                $b_content_head = $block_content_head[$key];
-                $b_image = $block_image[$key];
-                $b_image_position = $block_image_position[$key];
-                $b_class = $block_class[$key];
-                $b_reference = $block_reference[$key];
-                $b_position = $block_position[$key];
-                $b_content_position = $block_content_position[$key];
-                // $b_content_position = 'full';
-
-                // $epb = Equipment Page Block
-                $epb = new PageBlocks;
-                $epb->block_reference = $b_reference;
-                $epb->content_head = $b_content_head;
-                $epb->content = protectedString($content);
-                $epb->id_image = $b_image;
-                $epb->id_page = $data->id;
-                $epb->class = $b_class;
-                $epb->image_position = $b_image_position;
-                $epb->position = $b_position;
-                $epb->content_position = $b_content_position;
-                $epb->save();
-
-            }
-
+        if (!count($fillables)) {
+          return json('error', t('We could not find any fillable fields'));
         }
 
+        $fill = [];
+        foreach ($fillables as $field) {
+          $fill[makeColumn($field->field_name)] = input($field->field_name);
+        }
 
-        PageBlocks::whereIn('id', $saved_blocks)->delete();
+        $data = $this->obj->fill($fill);
+        $data->save();
+
+        if ($this->component->is_meta_needed) {
+          $data->meta_title = input('meta_title');
+          $data->meta_description = input('meta_description');
+          $data->meta_keywords = input('meta_keywords');
+          $data->save();
+        }
+
+        if (!$id) {
+          return json('redirect', AdminURL($this->component->slug . '/edit/' . $data->id));
+        }
+
+        return json('success', t($this->component->name . ' updated'));
     }
 
+    public function initProcessChangeStatus($component = null, $column = null, $id = null, $status = null)
+    {
+        $c = app()->context->$component->find($id);
+
+        $c->$column = $status;
+        $c->save();
+
+        $component = str_replace('_', ' ', $component);
+
+        return json('success', ucfirst($component) . ' updated');
+    }
 }

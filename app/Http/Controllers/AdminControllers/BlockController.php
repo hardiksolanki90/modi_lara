@@ -10,7 +10,7 @@ class BlockController extends AdminController
     public function __construct()
     {
         parent::__construct();
-        $this->component = $this->context->component
+        $this->component = app()->context->component
         ->where(['variable' => 'block'])
         ->first();
     }
@@ -28,11 +28,11 @@ class BlockController extends AdminController
         $this->initProcessFilter();
 
         if ($this->filter) {
-          $block = $this->context->block
+          $block = app()->context->block
           ->orderBy('id', 'desc')
           ->where($this->filter_search);
         } else {
-          $block = $this->context->block
+          $block = app()->context->block
           ->orderBy('id', 'desc');
         }
 
@@ -78,7 +78,7 @@ class BlockController extends AdminController
           ];
         }
 
-        $this->obj = $this->context->block;
+        $this->obj = app()->context->block;
         if ($id) {
           $this->obj = $this->obj->find($id);
         }
@@ -96,7 +96,7 @@ class BlockController extends AdminController
     public function initProcessCreate($id = null)
     {
         $data = $this->validateFields();
-        $this->obj = $this->context->block;
+        $this->obj = app()->context->block;
 
         if ($id) {
           $this->obj = $this->obj->find($id);
@@ -126,7 +126,7 @@ class BlockController extends AdminController
 
     public function initProcessDelete($id = null)
     {
-        $obj = $this->context->block->find($id);
+        $obj = app()->context->block->find($id);
         if ($obj) {
           $obj->delete();
           $this->flash('success', 'Client Success with title <strong>' . $obj->name . '</strong> is deleted successufully');
