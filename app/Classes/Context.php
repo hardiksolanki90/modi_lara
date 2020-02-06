@@ -7,6 +7,12 @@ namespace App\Classes;
  */
 class Context
 {
+    private static $instance;
+
+    protected $form;
+
+    protected $tools;
+    
     public static function getContext()
     {
         if (!self::$instance) {

@@ -4,5 +4,97 @@ Route::get('/', function () {
     return redirect(route('adminroute'));
 });
 
-Route::get('/challenge', 'AdminControllers\AdminAuthController@initContent')->name('adminroute');
-Route::post('/challenge', 'AdminControllers\AdminAuthController@initProcessLogin');
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('dashboard', 'DashboardController@initContent')->name('admin.dashboard');
+    Route::get('logout', 'EmployeeController@initProcessLogout')->name('employee.logout');
+
+
+    Route::any('media/get/list', 'MediaController@initListingPartial');
+    // @MediaController routes@ Added from component controller
+    Route::post('media/add/embeded', 'MediaController@initProcessEmbed')->name('media.add.embeded');
+    Route::get('media/add', 'MediaController@initContentCreate')->name('media.add');
+    Route::post('media/add', 'MediaController@initProcessCreate');
+    Route::get('media/edit/{id}', 'MediaController@initContentCreate')->name('media.edit');
+    Route::post('media/edit/{id}', 'MediaController@initProcessCreate');
+    Route::get('media', 'MediaController@initListing')->name('media.list');
+    Route::get('media/delete/{id}', 'MediaController@initProcessDelete')->name('media.delete');
+
+    Route::get('media/add', 'MediaController@initContentCreate')->name('media.add');
+    Route::post('media/add', 'MediaController@initProcessCreate');
+    Route::post('media/upload', 'MediaController@initProcessUpload')->name('media.upload');
+    Route::get('media/edit/{id}', 'MediaController@initContentCreate')->name('media.edit');
+    Route::post('media/edit/{id}', 'MediaController@initProcessCreate');
+    Route::get('media', 'MediaController@initListing')->name('media.list');
+    Route::get('media/delete/{id}', 'MediaController@initProcessDelete')->name('media.delete');
+
+    // @PageController routes@ Added from component controller
+    Route::get('page/add', 'PageController@initContentCreate')->name('page.add');
+    Route::post('page/add', 'PageController@initProcessCreate');
+    Route::get('page/edit/{id}', 'PageController@initContentCreate');
+    Route::post('page/edit/{id}', 'PageController@initProcessCreate');
+    Route::get('page', 'PageController@initListing')->name('page.list');
+    Route::get('page/delete/{id}', 'PageController@initProcessDelete')->name('page.delete');
+
+    Route::get('block/add', 'BlockController@initContentCreate')->name('block.add');
+    Route::post('block/add', 'BlockController@initProcessCreate');
+    Route::get('block/edit/{id}', 'BlockController@initContentCreate');
+    Route::post('block/edit/{id}', 'BlockController@initProcessCreate');
+    Route::get('block', 'BlockController@initListing')->name('block.list');
+    Route::get('block/delete/{id}', 'BlockController@initProcessDelete')->name('block.delete');
+
+    Route::get('admin/menu/headings/add', 'MenuHeadingController@initContentCreate')->name('menu_heading.add');
+    Route::post('admin/menu/headings/add', 'MenuHeadingController@initProcessCreate');
+    Route::get('admin/menu/headings/edit/{id}', 'MenuHeadingController@initContentCreate')->name('menu_heading.edit');
+    Route::post('admin/menu/headings/edit/{id}', 'MenuHeadingController@initProcessCreate');
+    Route::get('admin/menu/headings', 'MenuHeadingController@initListing')->name('menu_heading.list');
+    Route::get('admin/menu/headings/delete/{id}', 'MenuHeadingController@initProcessDelete')->name('menu_heading.delete');
+
+    Route::get('admin/menu/add', 'AdminMenuController@initContentCreate')->name('admin_menu.add');
+    Route::post('admin/menu/add', 'AdminMenuController@initProcessCreate');
+    Route::get('admin/menu/edit/{id}', 'AdminMenuController@initContentCreate')->name('admin_menu.edit');
+    Route::post('admin/menu/edit/{id}', 'AdminMenuController@initProcessCreate');
+    Route::get('admin/menu', 'AdminMenuController@initListing')->name('admin_menu.list');
+    Route::get('admin/menu/delete/{id}', 'AdminMenuController@initProcessDelete')->name('admin_menu.delete');
+
+    // @AdminMenuChildController routes@ Added from component controller
+    Route::get('admin/menu/child/add', 'AdminMenuChildController@initContentCreate')->name('admin_menu_child.add');
+    Route::post('admin/menu/child/add', 'AdminMenuChildController@initProcessCreate');
+    Route::get('admin/menu/child/edit/{id}', 'AdminMenuChildController@initContentCreate')->name('admin_menu_child.edit');
+    Route::post('admin/menu/child/edit/{id}', 'AdminMenuChildController@initProcessCreate');
+    Route::get('admin/menu/child', 'AdminMenuChildController@initListing')->name('admin_menu_child.list');
+    Route::get('admin/menu/child/delete/{id}', 'AdminMenuChildController@initProcessDelete')->name('admin_menu_child.delete');
+    
+    // @ComponentController routes@ Added from component controller
+    Route::get('component/add', 'ComponentController@initContentCreate')->name('component.add');
+    Route::post('component/add', 'ComponentController@initProcessCreate');
+    Route::get('component/edit/{id}', 'ComponentController@initContentCreate')->name('component.edit');
+    Route::post('component/edit/{id}', 'ComponentController@initProcessCreate');
+    Route::get('component/list', 'ComponentController@initListing')->name('component.list');
+    
+});
+
+Route::group(['prefix' => 'employee'], function () {
+    Route::get('register', 'EmployeeController@initContentRegister')->name('employee.register');
+    Route::post('register', 'EmployeeController@initProcessRegister');
+});
+
+Route::group(['middleware' => 'admin_guest'], function () {
+
+    Route::get('secure/challenge', 'AdminAuthController@initContent')->name('adminroute');
+    Route::post('secure/challenge', 'AdminAuthController@initProcessLogin');
+
+    // Route::get('login', 'AuthenticationController@initContentLogin')->name('login');
+    // Route::post('login', 'AuthenticationController@initProcessLogin');
+    // Route::get('register', 'AuthenticationController@initContentRegister')->name('register');
+    // Route::post('register', 'AuthenticationController@initProcessRegister');
+
+    // Route::get('password/reset', 'ForgotPasswordController@initContentPasswordReset')->name('password.request');
+    // Route::post('password/email', 'ForgotPasswordController@initProcessSendResetLink')->name('password.email');
+
+    // Route::get('password/reset/{token}', 'ResetPasswordController@initContentSetNewPassword')->name('password.reset');
+    // Route::post('password/reset', 'ResetPasswordController@initProcessResetPassword')->name('password.update');
+    // Route::get('verify/account/{token}', 'AuthenticationController@initProcessVerificationAccount')->name('verify.account');
+});
+
+// Route::get('secure/challenge', 'AdminAuthController@initContent')->name('adminroute');
+// Route::post('secure/challenge', 'AdminAuthController@initProcessLogin');

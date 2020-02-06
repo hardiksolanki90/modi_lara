@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'App\Http\Controllers\FrontControllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -50,16 +50,17 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        if (app()->scope == 'front') {
+        if (config('modilara.app_scope') == 'admin') {
+            $this->namespace = 'App\Http\Controllers\AdminControllers';
             Route::middleware('web')
-                 ->namespace($this->namespace)
-                 ->group(base_path('routes/web.php'));
-        } else {
+            ->prefix(config('modilara.admin_route'))
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+          } else {
             Route::middleware('web')
-                ->prefix(config('app.admin_route'))
-                ->namespace($this->namespace)
-                ->group(base_path('routes/admin.php'));
-        }
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+          }
     }
 
     /**
