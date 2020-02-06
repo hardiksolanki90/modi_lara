@@ -1,0 +1,73 @@
+.home-slider .swiper-slide.writing-bg {
+  background: url(../../../../storage/media/image/pexels-photo-733856.jpeg) no-repeat;
+}
+
+.home-slider .swiper-slide.speaking-bg {
+  background: url(../../../../storage/media/image/pexels-photo-630839.jpeg) no-repeat;
+}
+
+.home-slider .swiper-slide {
+  padding: 7.5rem 0;
+  color: #fff;
+  text-align: center;
+  background-size: 100% !important;
+  background-attachment: fixed;
+  position: relative;
+}
+
+.slider-container {
+  position: relative;
+}
+
+._sl h1 {
+  font-size: 48px;
+  font-weight: bold;
+}
+
+/* CHECKBOX */
+
+[type="radio"]:not(:checked), [type="radio"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+
+[type="radio"]:not(:checked)+label, [type="radio"]:checked+label {
+  position: relative;
+  padding-left: 4em;
+  padding-top: .25em;
+  cursor: pointer;
+}
+
+[type="radio"]:not(:checked)+label:before, [type="radio"]:checked+label:before, [type="radio"]:not(:checked)+label:after, [type="radio"]:checked+label:after {
+  content: '';
+  position: absolute;
+  height: 1.5em;
+  transition: all .5s ease;
+}
+
+[type="radio"]:not(:checked)+label:before, [type="radio"]:checked+label:before {
+  left: 0;
+  top: 0;
+  width: 3em;
+  border: 2px solid #dddddd;
+  background: #dddddd;
+  border-radius: 1.1em;
+  z-index: -1;
+}
+
+[type="radio"]:not(:checked)+label:after, [type="radio"]:checked+label:after {
+  left: .15em;
+  top: .125em;
+  background-color: #fff;
+  border-radius: 50%;
+  width: 1.5em;
+}
+
+[type="radio"]:checked+label:after {
+  left: 1.65em;
+}
+
+[type="radio"]:checked+label:before {
+  background-color: #72da67;
+  border-color: #72da67;
+}
