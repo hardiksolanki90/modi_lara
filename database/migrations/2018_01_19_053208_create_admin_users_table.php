@@ -25,11 +25,11 @@ class CreateAdminUsersTable extends Migration
             $table->softDeletes();
             $table->engine = 'InnoDB';
         });
-
+        // Password is hardikera1
         $data = [
           'name' => 'Hardik Solanki',
           'email' => 'hardik@hardiksolanki.com',
-          'password' => '$2y$10$JkBE4qanKSUjC.M.OdF7GuqawAkFzkOjho1VFOj88c89Yeup9YQPS'
+          'password' => '$2y$10$sMIZfZ1YrRmvmgm0zgYicu1JEF8mr2Kxz.FevFkyI67h2whX5PkQi'
         ];
         \Illuminate\Support\Facades\DB::table('admin_users')->insert($data);
     }
