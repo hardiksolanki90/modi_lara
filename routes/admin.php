@@ -5,7 +5,14 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'admin'], function () {
-				// @CustomerController routes@ Added from component controller
+				// @StatesController routes@ Added from component controller
+				Route::get('states/add', 'StatesController@initContentCreate')->name('states.add');
+				Route::post('states/add', 'StatesController@initProcessCreate');
+				Route::get('states/edit/{id}', 'StatesController@initContentCreate')->name('states.edit');
+				Route::post('states/edit/{id}', 'StatesController@initProcessCreate');
+				Route::get('states', 'StatesController@initListing')->name('states.list');
+				Route::get('states/delete/{id}', 'StatesController@initProcessDelete')->name('states.delete');
+
 				Route::get('customer/add', 'CustomerController@initContentCreate')->name('customer.add');
 				Route::post('customer/add', 'CustomerController@initProcessCreate');
 				Route::get('customer/edit/{id}', 'CustomerController@initContentCreate')->name('customer.edit');
@@ -120,7 +127,14 @@ Route::group(['prefix' => 'employee'], function () {
 });
 
 Route::group(['middleware' => 'admin_guest'], function () {
-    Route::get('secure/challenge', 'AdminAuthController@initContent')->name('adminroute');
+				// @StatesController routes@ Added from component controller
+				Route::get('states/add', 'StatesController@initContentCreate')->name('states.add');
+				Route::post('states/add', 'StatesController@initProcessCreate');
+				Route::get('states/edit/{id}', 'StatesController@initContentCreate')->name('states.edit');
+				Route::post('states/edit/{id}', 'StatesController@initProcessCreate');
+				Route::get('states', 'StatesController@initListing')->name('states.list');
+				Route::get('states/delete/{id}', 'StatesController@initProcessDelete')->name('states.delete');
+
     Route::post('secure/challenge', 'AdminAuthController@initProcessLogin');
 
     // Route::get('login', 'AuthenticationController@initContentLogin')->name('login');

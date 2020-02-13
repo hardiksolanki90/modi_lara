@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         if (config('modilara.load_configuration')) {
-          $this->initProcessMaintenance();
+        //   $this->initProcessMaintenance();
           $this->bootApplication($request);
         }
     }

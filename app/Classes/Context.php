@@ -19,6 +19,8 @@ class Context
 
 		protected $customer;
 
+		protected $states;
+
     public static function getContext()
     {
         if (!self::$instance) {

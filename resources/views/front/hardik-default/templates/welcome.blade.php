@@ -8,12 +8,6 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-        @if (count($css_files))
-        @foreach ($css_files as $css)
-          <link type="text/css" href="{{ $css }}" rel="stylesheet">
-        @endforeach
-      @endif
-
         <!-- Styles -->
         <style>
             html, body {
