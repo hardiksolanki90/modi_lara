@@ -97,30 +97,6 @@ class AdminMenuChild extends Migration
           'id_lang' => 1,
         ];
 
-        $components[9] = [
-          'name' => 'Posts',
-          'slug' => 'post.list',
-          'id_menu' => 5,
-          'id_website' => 1,
-          'id_lang' => 1,
-        ];
-
-        $components[10] = [
-          'name' => 'Categories',
-          'slug' => 'post_category.list',
-          'id_menu' => 5,
-          'id_website' => 1,
-          'id_lang' => 1,
-        ];
-
-        $components[11] = [
-          'name' => 'Tags',
-          'slug' => 'post_tags.list',
-          'id_menu' => 5,
-          'id_website' => 1,
-          'id_lang' => 1,
-        ];
-
         $components[12] = [
           'name' => 'Admin Users',
           'slug' => 'admin_user.list',

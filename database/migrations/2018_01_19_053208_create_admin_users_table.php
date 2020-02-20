@@ -25,6 +25,7 @@ class CreateAdminUsersTable extends Migration
             $table->softDeletes();
             $table->engine = 'InnoDB';
         });
+        
         // Password is hardikera1
         $data = [
           'name' => 'Hardik Solanki',

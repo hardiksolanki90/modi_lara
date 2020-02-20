@@ -57,29 +57,21 @@ class AdminMenu extends Migration
           'id_lang' => 1,
         ];
 
-        $components[4] = [
-          'name' => 'Post',
-          'slug' => '',
-          'id_head' => 2,
-          'id_website' => 1,
-          'id_lang' => 1,
-        ];
-
         $components[5] = [
           'name' => 'Dashboard',
-          'slug' => 'dashboard',
+          'slug' => 'admin.dashboard',
           'id_head' => 1,
           'id_website' => 1,
           'id_lang' => 1,
         ];
 
-        $components[6] = [
-          'name' => 'Admin Users',
-          'slug' => 'admin_user.list',
-          'id_head' => 3,
-          'id_website' => 1,
-          'id_lang' => 1,
-        ];
+        // $components[6] = [
+        //   'name' => 'Admin Users',
+        //   'slug' => 'admin_user.list',
+        //   'id_head' => 3,
+        //   'id_website' => 1,
+        //   'id_lang' => 1,
+        // ];
 
         foreach ($components as $component) {
           $c = \Illuminate\Support\Facades\DB::table('admin_menu')->insert($component);

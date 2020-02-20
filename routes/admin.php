@@ -5,35 +5,6 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'admin'], function () {
-				// @StatesController routes@ Added from component controller
-				Route::get('states/add', 'StatesController@initContentCreate')->name('states.add');
-				Route::post('states/add', 'StatesController@initProcessCreate');
-				Route::get('states/edit/{id}', 'StatesController@initContentCreate')->name('states.edit');
-				Route::post('states/edit/{id}', 'StatesController@initProcessCreate');
-				Route::get('states', 'StatesController@initListing')->name('states.list');
-				Route::get('states/delete/{id}', 'StatesController@initProcessDelete')->name('states.delete');
-
-				Route::get('customer/add', 'CustomerController@initContentCreate')->name('customer.add');
-				Route::post('customer/add', 'CustomerController@initProcessCreate');
-				Route::get('customer/edit/{id}', 'CustomerController@initContentCreate')->name('customer.edit');
-				Route::post('customer/edit/{id}', 'CustomerController@initProcessCreate');
-				Route::get('customer', 'CustomerController@initListing')->name('customer.list');
-				Route::get('customer/delete/{id}', 'CustomerController@initProcessDelete')->name('customer.delete');
-
-    Route::get('privacy/policy/add', 'PrivacyPolicyController@initContentCreate')->name('privacy_policy.add');
-    Route::post('privacy/policy/add', 'PrivacyPolicyController@initProcessCreate');
-    Route::get('privacy/policy/edit/{id}', 'PrivacyPolicyController@initContentCreate')->name('privacy_policy.edit');
-    Route::post('privacy/policy/edit/{id}', 'PrivacyPolicyController@initProcessCreate');
-    Route::get('privacy/policy', 'PrivacyPolicyController@initListing')->name('privacy_policy.list');
-    Route::get('privacy/policy/delete/{id}', 'PrivacyPolicyController@initProcessDelete')->name('privacy_policy.delete');
-
-    Route::get('test/add', 'TestController@initContentCreate')->name('test.add');
-    Route::post('test/add', 'TestController@initProcessCreate');
-    Route::get('test/edit/{id}', 'TestController@initContentCreate')->name('test.edit');
-    Route::post('test/edit/{id}', 'TestController@initProcessCreate');
-    Route::get('test', 'TestController@initListing')->name('test.list');
-    Route::get('test/delete/{id}', 'TestController@initProcessDelete')->name('test.delete');
-
     
     Route::get('dashboard', 'DashboardController@initContent')->name('admin.dashboard');
     Route::get('logout', 'EmployeeController@initProcessLogout')->name('employee.logout');
@@ -135,6 +106,7 @@ Route::group(['middleware' => 'admin_guest'], function () {
 				Route::get('states', 'StatesController@initListing')->name('states.list');
 				Route::get('states/delete/{id}', 'StatesController@initProcessDelete')->name('states.delete');
 
+    Route::get('secure/challenge', 'AdminAuthController@initContent')->name('adminroute');
     Route::post('secure/challenge', 'AdminAuthController@initProcessLogin');
 
     // Route::get('login', 'AuthenticationController@initContentLogin')->name('login');
@@ -150,5 +122,4 @@ Route::group(['middleware' => 'admin_guest'], function () {
     // Route::get('verify/account/{token}', 'AuthenticationController@initProcessVerificationAccount')->name('verify.account');
 });
 
-// Route::get('secure/challenge', 'AdminAuthController@initContent')->name('adminroute');
 // Route::post('secure/challenge', 'AdminAuthController@initProcessLogin');

@@ -16,6 +16,7 @@ class AdminMenuHeading extends Migration
         Schema::create('admin_menu_heading', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->default()->nullable();
+            $table->integer('position')->default()->nullable();
             $table->integer('id_website')->default()->nullable();
             $table->integer('id_lang')->default()->nullable();
             $table->timestamps();
