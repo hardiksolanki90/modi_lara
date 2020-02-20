@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use DB;
 use View;
-use Input;
 
 class AdminController extends Controller
 {
